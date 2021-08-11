@@ -1,0 +1,15 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Theme.TestGenesis" parent="Theme.MaterialComponents.NoActionBar">
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor" tools:targetApi="l">@color/purple</item>
+        <!-- Customize your theme here. -->
+        <item name="main_text">@color/black2</item>
+        <item name="main_text_2">@color/grey_dark</item>
+        <item name="disabled_color">@color/grey_light</item>
+        <item name="button_color">@color/pink</item>
+        <item name="background">@color/black3</item>
+        <item name="accent_main_color">@color/ruby</item>
+        <item name="image_background">@color/grey</item>
+    </style>
+</resources>
