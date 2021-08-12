@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.books.app.databinding.BookItemBinding
+import com.books.domain.entities.Book
 import com.squareup.picasso.Picasso
 
 class BooksAdapter :
@@ -15,7 +16,7 @@ class BooksAdapter :
     companion object {
         private val DiffCallback = object : DiffUtil.ItemCallback<Book>() {
             override fun areItemsTheSame(oldItem: Book, newItem: Book): Boolean {
-                return oldItem.cover == newItem.cover
+                return oldItem.coverUrl == newItem.coverUrl
             }
 
             override fun areContentsTheSame(oldItem: Book, newItem: Book): Boolean {
@@ -55,8 +56,8 @@ class BooksAdapter :
 
         fun bind(book: Book) {
             binding.apply {
-                val coverUrl = book.cover
-                title.text = book.title
+                val coverUrl = book.coverUrl
+                title.text = book.name
                 Picasso.get().load(coverUrl).into(cover)
             }
         }

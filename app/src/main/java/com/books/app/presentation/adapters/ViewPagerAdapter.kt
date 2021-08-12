@@ -8,9 +8,10 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import androidx.viewpager.widget.PagerAdapter
 import com.books.app.R
+import com.squareup.picasso.Picasso
 
 
-class ViewPagerAdapter(context: Context, private val images: IntArray) : PagerAdapter() {
+class ViewPagerAdapter(context: Context, private val images: List<String>) : PagerAdapter() {
 
     var mLayoutInflater: LayoutInflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
 
@@ -32,7 +33,7 @@ class ViewPagerAdapter(context: Context, private val images: IntArray) : PagerAd
         imageView.scaleType = ImageView.ScaleType.CENTER_CROP
 
         // setting the image in the imageView
-        imageView.setImageResource(images[position])
+        Picasso.get().load(images[position]).into(imageView)
 
         // Adding the View
         container.addView(itemView)
