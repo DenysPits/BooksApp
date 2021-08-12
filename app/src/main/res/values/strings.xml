@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">TestGenesis</string>
+    <string name="welcome_to_book_app">Welcome to Book App</string>
+    <string name="book_app">Book App</string>
+    <string name="library">Library</string>
+    <string name="book">Book</string>
+    <string name="banner_image">Banner image</string>
 </resources>
