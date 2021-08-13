@@ -6,7 +6,7 @@
             android:shape="ring"
             android:thickness="3.5dp"
             android:useLevel="false">
-            <solid android:color="?banner_default_dot"/>
+            <solid android:color="?banner_default_dot" />
         </shape>
     </item>
 </layer-list>

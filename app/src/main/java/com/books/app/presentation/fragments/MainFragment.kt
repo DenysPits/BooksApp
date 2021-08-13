@@ -8,8 +8,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.books.app.databinding.MainFragmentBinding
 import com.books.app.presentation.BooksApplication
+import com.books.app.presentation.adapters.BannerAdapter
 import com.books.app.presentation.adapters.GenreAdapter
-import com.books.app.presentation.adapters.ViewPagerAdapter
+import com.books.app.presentation.adapters.autoScroll
 import com.books.app.presentation.viewmodels.MainViewModel
 import javax.inject.Inject
 
@@ -52,10 +53,10 @@ class MainFragment : Fragment() {
             if (firebaseResponse != null) {
                 genreAdapter.submitList(viewModel.genres)
 
-                val imagesUrls = firebaseResponse.banners.map { it.cover }
                 val viewPager = binding.banner
                 viewPager.pageMargin = 80
-                val viewPagerAdapter = ViewPagerAdapter(requireContext(), imagesUrls)
+                viewPager.autoScroll(3000)
+                val viewPagerAdapter = BannerAdapter(requireContext(), firebaseResponse.banners)
                 viewPager.adapter = viewPagerAdapter
                 val tabLayout = binding.tabLayout
                 tabLayout.setupWithViewPager(viewPager)
@@ -63,4 +64,3 @@ class MainFragment : Fragment() {
         }
     }
 }
-

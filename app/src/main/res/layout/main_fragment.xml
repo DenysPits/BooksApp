@@ -14,23 +14,11 @@
             android:layout_height="wrap_content"
             android:background="?background"
             android:clipToPadding="false"
+            android:paddingStart="16dp"
             android:paddingTop="38dp"
+            android:paddingEnd="16dp"
             android:paddingBottom="45dp"
             tools:context=".presentation.fragments.MainFragment">
-
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guideline_start"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintGuide_begin="16dp" />
-
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guideline_end"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintGuide_end="16dp" />
 
             <TextView
                 android:id="@+id/header"
@@ -40,7 +28,7 @@
                 android:text="@string/library"
                 android:textColor="?accent_main_color"
                 android:textSize="20sp"
-                app:layout_constraintStart_toStartOf="@id/guideline_start"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.viewpager.widget.ViewPager
@@ -48,9 +36,10 @@
                 android:layout_width="0dp"
                 android:layout_height="167dp"
                 android:layout_marginTop="28dp"
-                app:layout_constraintEnd_toEndOf="@id/guideline_end"
-                app:layout_constraintStart_toStartOf="@id/guideline_start"
-                app:layout_constraintTop_toBottomOf="@id/header" />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/header"
+                tools:ignore="SpeakableTextPresentCheck" />
 
             <com.google.android.material.tabs.TabLayout
                 android:id="@+id/tab_layout"
@@ -72,10 +61,11 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="9dp"
+                android:layout_marginEnd="-16dp"
                 android:orientation="vertical"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@id/guideline_start"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/banner"
                 tools:itemCount="5"
                 tools:listitem="@layout/genre_item" />

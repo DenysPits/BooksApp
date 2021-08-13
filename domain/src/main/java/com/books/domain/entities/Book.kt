@@ -3,7 +3,7 @@ package com.books.domain.entities
 import com.google.gson.annotations.SerializedName
 
 data class Book(
-    val id: Long,
+    val id: Int,
     val name: String,
     val author: String,
     val summary: String,

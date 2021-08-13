@@ -43,7 +43,7 @@ class GenreAdapter :
         fun bind(genre: Genre) {
             binding.apply {
                 this.genre.text = genre.genre
-                val adapter = BooksAdapter()
+                val adapter = BooksMainAdapter()
                 books.adapter = adapter
                 adapter.submitList(genre.books)
             }

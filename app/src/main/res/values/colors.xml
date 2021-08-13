@@ -9,8 +9,10 @@
     <color name="grey">#C4C4C4</color>
     <color name="grey2">#C1C2CA</color>
     <color name="grey_dark">#393637</color>
-    <color name="black2">#0B080F</color> // text
-    <color name="black3">#101010</color> // background
+    <color name="black2">#0B080F</color>
+    // text
+    <color name="black3">#101010</color>
+    // background
     <color name="purple">#532454</color>
     <color name="white_0.2">#33FFFFFF</color>
 </resources>

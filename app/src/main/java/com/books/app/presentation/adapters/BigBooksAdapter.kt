@@ -1,17 +1,17 @@
 package com.books.app.presentation.adapters
 
-import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.books.app.databinding.BookItemBinding
+import com.books.app.databinding.BigBookItemBinding
+import com.books.app.databinding.DetailsFragmentBinding
 import com.books.domain.entities.Book
 import com.squareup.picasso.Picasso
 
-open class BooksAdapter :
-    ListAdapter<Book, BooksAdapter.BookViewHolder>(DiffCallback) {
+class BigBooksAdapter(private val detailsFragmentBinding: DetailsFragmentBinding) :
+    ListAdapter<Book, BigBooksAdapter.BookViewHolder>(DiffCallback) {
 
     companion object {
         private val DiffCallback = object : DiffUtil.ItemCallback<Book>() {
@@ -27,7 +27,7 @@ open class BooksAdapter :
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
         BookViewHolder(
-            BookItemBinding.inflate(
+            BigBookItemBinding.inflate(
                 LayoutInflater.from(parent.context),
                 parent,
                 false
@@ -35,34 +35,23 @@ open class BooksAdapter :
         )
 
     override fun onBindViewHolder(holder: BookViewHolder, position: Int) {
-        val item = getItem(position)
-        if (position == itemCount - 1) {
-            setMarginToLastBook(holder)
-        }
-        holder.bind(item)
+        val book = getItem(position)
+        holder.bind(book)
     }
 
-    private fun setMarginToLastBook(holder: BookViewHolder) {
-        val marginInDp = 16f
-        val marginInPx = TypedValue.applyDimension(
-            TypedValue.COMPLEX_UNIT_DIP,
-            marginInDp,
-            holder.itemView.context.resources.displayMetrics
-        )
-
-        val marginLayoutParams =
-            holder.binding.bookContainer.layoutParams as ViewGroup.MarginLayoutParams
-        marginLayoutParams.marginEnd = marginInPx.toInt()
+    fun getItemByPosition(position: Int): Book {
+        return currentList[position]
     }
 
     open class BookViewHolder(
-        val binding: BookItemBinding
+        private val binding: BigBookItemBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
         open fun bind(book: Book) {
             binding.apply {
                 val coverUrl = book.coverUrl
                 title.text = book.name
+                author.text = book.author
                 Picasso.get().load(coverUrl).into(cover)
             }
         }
