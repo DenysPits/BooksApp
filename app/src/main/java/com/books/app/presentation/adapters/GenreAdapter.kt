@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.books.app.databinding.GenreItemBinding
+import com.books.domain.entities.Book
 
 class GenreAdapter :
     ListAdapter<Genre, GenreAdapter.GenreViewHolder>(DiffCallback) {
@@ -50,3 +51,5 @@ class GenreAdapter :
         }
     }
 }
+
+data class Genre(val genre: String, val books: List<Book>)

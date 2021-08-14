@@ -1,4 +1,4 @@
-package com.books.app.presentation.adapters
+package com.books.app.presentation.decorations
 
 import android.content.Context
 import android.graphics.Rect

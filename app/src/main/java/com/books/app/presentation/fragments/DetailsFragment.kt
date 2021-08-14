@@ -8,15 +8,13 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.books.app.R
 import com.books.app.databinding.DetailsFragmentBinding
 import com.books.app.presentation.BooksApplication
 import com.books.app.presentation.adapters.BigBooksAdapter
 import com.books.app.presentation.adapters.BooksDetailsAdapter
-import com.books.app.presentation.adapters.HorizontalMarginItemDecoration
+import com.books.app.presentation.decorations.HorizontalMarginItemDecoration
 import com.books.app.presentation.viewmodels.DetailsViewModel
 import com.books.domain.entities.Book
 import javax.inject.Inject
@@ -98,11 +96,6 @@ class DetailsFragment : Fragment() {
                 })
             }
         }
-    }
-
-    private fun getCurrentItem(recyclerView: RecyclerView): Int {
-        return (recyclerView.layoutManager as LinearLayoutManager)
-            .findFirstCompletelyVisibleItemPosition()
     }
 }
 
