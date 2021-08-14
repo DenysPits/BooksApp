@@ -44,7 +44,6 @@ class BannerAdapter(context: Context, private val banners: List<Banner>) : Pager
 
         Picasso.get().load(banners[position].cover).into(imageView)
 
-        // Adding the View
         container.addView(itemView)
         return itemView
     }

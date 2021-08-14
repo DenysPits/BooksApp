@@ -1,7 +1,6 @@
 plugins {
     id 'com.android.library'
     id 'kotlin-android'
-    id 'com.google.gms.google-services'
     id 'kotlin-kapt'
 }
 
@@ -44,7 +43,6 @@ dependencies {
     implementation platform('com.google.firebase:firebase-bom:28.3.1')
     // When using the BoM, don't specify versions in Firebase dependencies
     implementation 'com.google.firebase:firebase-config-ktx'
-    implementation 'com.google.firebase:firebase-analytics-ktx'
 
     implementation 'com.google.code.gson:gson:2.8.7'
 

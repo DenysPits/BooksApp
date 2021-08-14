@@ -62,7 +62,7 @@ open class BooksAdapter :
         open fun bind(book: Book) {
             binding.apply {
                 val coverUrl = book.coverUrl
-                title.text = book.name
+                title.text = book.title
                 Picasso.get().load(coverUrl).into(cover)
             }
         }

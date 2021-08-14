@@ -33,18 +33,50 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/big_book_recycler"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/big_book_pager"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
                 android:layout_marginTop="55dp"
-                android:orientation="horizontal"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:itemCount="3"
-                tools:listitem="@layout/big_book_item" />
+                app:layout_constraintTop_toTopOf="parent"/>
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/nunito_sans_700"
+                android:gravity="center"
+                android:textColor="?white"
+                android:textSize="20sp"
+                app:layout_constrainedWidth="true"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/big_book_pager"
+                app:layout_constraintWidth_max="wrap"
+                app:layout_constraintWidth_percent="0.7"
+                tools:text="If It’s Only Love" />
+
+            <TextView
+                android:id="@+id/author"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="38dp"
+                android:alpha="0.8"
+                android:fontFamily="@font/nunito_sans_700"
+                android:gravity="center"
+                android:textColor="?white"
+                android:textSize="14sp"
+                app:layout_constrainedWidth="true"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/title"
+                app:layout_constraintWidth_max="wrap"
+                app:layout_constraintWidth_percent="0.7"
+                tools:text="Zoey Evers" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -9,15 +9,19 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager2.widget.ViewPager2
+import com.books.app.R
 import com.books.app.databinding.DetailsFragmentBinding
 import com.books.app.presentation.BooksApplication
 import com.books.app.presentation.adapters.BigBooksAdapter
 import com.books.app.presentation.adapters.BooksDetailsAdapter
+import com.books.app.presentation.adapters.HorizontalMarginItemDecoration
 import com.books.app.presentation.viewmodels.DetailsViewModel
 import com.books.domain.entities.Book
 import javax.inject.Inject
+import kotlin.math.abs
+
 
 class DetailsFragment : Fragment() {
 
@@ -43,36 +47,48 @@ class DetailsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val adapter = BooksDetailsAdapter(binding)
         binding.youLikeRecycler.adapter = adapter
-        val bigAdapter = BigBooksAdapter(binding)
-        val bigBooksRecycler = binding.bigBookRecycler
-        bigBooksRecycler.adapter = bigAdapter
-
-        bigBooksRecycler.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-                super.onScrollStateChanged(recyclerView, newState)
-                if (newState == RecyclerView.SCROLL_STATE_SETTLING || newState == RecyclerView.SCROLL_STATE_IDLE) {
-                    val position = getCurrentItem(recyclerView)
-                    val book = bigAdapter.getItemByPosition(position)
-                    binding.bindInfoAboutBook(book)
-                }
-            }
-        })
 
         binding.arrowBack.setOnClickListener {
             findNavController().navigateUp()
         }
 
-        val pagerSnapHelper = PagerSnapHelper()
-        pagerSnapHelper.attachToRecyclerView(binding.bigBookRecycler)
+        val bigAdapter = BigBooksAdapter()
+        val viewPager = binding.bigBookPager
+        viewPager.adapter = bigAdapter
+        viewPager.offscreenPageLimit = 1
+
+        val nextItemVisiblePx = resources.getDimension(R.dimen.viewpager_next_item_visible)
+        val currentItemHorizontalMarginPx = resources.getDimension(R.dimen.viewpager_current_item_horizontal_margin)
+        val pageTranslationX = nextItemVisiblePx + currentItemHorizontalMarginPx
+        val pageTransformer = ViewPager2.PageTransformer { page: View, position: Float ->
+            page.translationX = -pageTranslationX * position
+            page.scaleY = 1 - (0.2f * abs(position))
+            page.scaleX = 1 - (0.2f * abs(position))
+        }
+        viewPager.setPageTransformer(pageTransformer)
+
+        val itemDecoration = HorizontalMarginItemDecoration(
+            requireContext(),
+            R.dimen.viewpager_current_item_horizontal_margin
+        )
+        viewPager.addItemDecoration(itemDecoration)
+
+        viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+            override fun onPageSelected(position: Int) {
+                val book = bigAdapter.getItemByPosition(position)
+                binding.bindInfoAboutBook(book)
+            }
+        })
 
         viewModel.firebaseResponse.observe(viewLifecycleOwner) { firebaseResponse ->
             if (firebaseResponse != null) {
-                bigAdapter.submitList(firebaseResponse.books)
-
                 val startPosition = navigationArgs.bookId
-                (bigBooksRecycler.layoutManager as LinearLayoutManager).scrollToPosition(
-                    startPosition
-                )
+
+                bigAdapter.submitList(firebaseResponse.books) {
+                    viewPager.currentItem = startPosition
+                    binding.bindInfoAboutBook(firebaseResponse.books[startPosition])
+                }
+
                 binding.bindInfoAboutBook(firebaseResponse.books[startPosition])
 
                 adapter.submitList(firebaseResponse.books.filter {
@@ -86,11 +102,13 @@ class DetailsFragment : Fragment() {
 
     private fun getCurrentItem(recyclerView: RecyclerView): Int {
         return (recyclerView.layoutManager as LinearLayoutManager)
-            .findFirstVisibleItemPosition()
+            .findFirstCompletelyVisibleItemPosition()
     }
 }
 
 fun DetailsFragmentBinding.bindInfoAboutBook(book: Book) {
+    title.text = book.title
+    author.text = book.author
     readersCount.text = book.views.lowercase()
     likesCount.text = book.likes.lowercase()
     quotesCount.text = book.quotes.lowercase()

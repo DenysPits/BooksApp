@@ -48,7 +48,6 @@ class MainFragment : Fragment() {
         binding.genreRecycler.isNestedScrollingEnabled = false
         binding.genreRecycler.adapter = genreAdapter
 
-
         viewModel.firebaseResponseLiveData.observe(viewLifecycleOwner) { firebaseResponse ->
             if (firebaseResponse != null) {
                 genreAdapter.submitList(viewModel.genres)
