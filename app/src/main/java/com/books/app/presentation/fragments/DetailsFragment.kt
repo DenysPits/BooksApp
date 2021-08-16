@@ -11,26 +11,28 @@ import androidx.navigation.fragment.navArgs
 import androidx.viewpager2.widget.ViewPager2
 import com.books.app.R
 import com.books.app.databinding.DetailsFragmentBinding
-import com.books.app.presentation.BooksApplication
+import com.books.app.presentation.activities.MainActivity
 import com.books.app.presentation.adapters.BigBooksAdapter
 import com.books.app.presentation.adapters.BooksDetailsAdapter
 import com.books.app.presentation.decorations.HorizontalMarginItemDecoration
+import com.books.app.presentation.utils.injectViewModel
 import com.books.app.presentation.viewmodels.DetailsViewModel
+import com.books.app.presentation.viewmodels.FirebaseResponseViewModel
 import com.books.domain.entities.Book
-import javax.inject.Inject
 import kotlin.math.abs
 
 
 class DetailsFragment : Fragment() {
 
-    @Inject
-    lateinit var viewModel: DetailsViewModel
+    private lateinit var viewModel: DetailsViewModel
+    private lateinit var firebaseViewModel: FirebaseResponseViewModel
     private val navigationArgs: DetailsFragmentArgs by navArgs()
     private lateinit var binding: DetailsFragmentBinding
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        (requireActivity().application as BooksApplication).appComponent.inject(this)
+        viewModel = injectViewModel((activity as MainActivity).viewModelFactory)
+        firebaseViewModel = injectViewModel((activity as MainActivity).viewModelFactory)
     }
 
     override fun onCreateView(
@@ -73,21 +75,19 @@ class DetailsFragment : Fragment() {
 
         viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
+                viewModel.currentSlide = position
                 val book = bigAdapter.getItemByPosition(position)
                 binding.bindInfoAboutBook(book)
             }
         })
 
-        viewModel.firebaseResponse.observe(viewLifecycleOwner) { firebaseResponse ->
+        firebaseViewModel.firebaseResponse.observe(viewLifecycleOwner) { firebaseResponse ->
             if (firebaseResponse != null) {
-                val startPosition = navigationArgs.bookId
+                val startPosition = viewModel.currentSlide ?: navigationArgs.bookId
 
                 bigAdapter.submitList(firebaseResponse.books) {
                     viewPager.currentItem = startPosition
-                    binding.bindInfoAboutBook(firebaseResponse.books[startPosition])
                 }
-
-                binding.bindInfoAboutBook(firebaseResponse.books[startPosition])
 
                 adapter.submitList(firebaseResponse.books.filter {
                     firebaseResponse.likeIds.contains(

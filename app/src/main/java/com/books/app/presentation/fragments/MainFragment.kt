@@ -9,22 +9,24 @@ import androidx.fragment.app.Fragment
 import com.asksira.loopingviewpager.LoopingViewPager
 import com.books.app.R
 import com.books.app.databinding.MainFragmentBinding
-import com.books.app.presentation.BooksApplication
+import com.books.app.presentation.activities.MainActivity
 import com.books.app.presentation.adapters.BannerAdapter
 import com.books.app.presentation.adapters.GenreAdapter
 import com.books.app.presentation.decorations.MyPageIndicator
+import com.books.app.presentation.utils.injectViewModel
+import com.books.app.presentation.viewmodels.FirebaseResponseViewModel
 import com.books.app.presentation.viewmodels.MainViewModel
-import javax.inject.Inject
 
 class MainFragment : Fragment() {
-    @Inject
-    lateinit var viewModel: MainViewModel
+    private lateinit var viewModel: MainViewModel
+    private lateinit var firebaseViewModel: FirebaseResponseViewModel
     private lateinit var binding: MainFragmentBinding
     private lateinit var viewPager: LoopingViewPager
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        (requireActivity().application as BooksApplication).appComponent.inject(this)
+        viewModel = injectViewModel((activity as MainActivity).viewModelFactory)
+        firebaseViewModel = injectViewModel((activity as MainActivity).viewModelFactory)
     }
 
     override fun onCreateView(
@@ -54,8 +56,9 @@ class MainFragment : Fragment() {
         viewPager = binding.banner
         viewPager.pageMargin = 80
 
-        viewModel.firebaseResponseLiveData.observe(viewLifecycleOwner) { firebaseResponse ->
+        firebaseViewModel.firebaseResponse.observe(viewLifecycleOwner) { firebaseResponse ->
             if (firebaseResponse != null) {
+                viewModel.refreshGenres(firebaseResponse.books)
                 genreAdapter.submitList(viewModel.genres)
 
                 val banners = firebaseResponse.banners
