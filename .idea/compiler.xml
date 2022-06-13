@@ -5,6 +5,8 @@
       <module name="TestGenesis" target="11" />
       <module name="TestGenesis.app" target="11" />
       <module name="TestGenesis.data" target="11" />
+      <module name="TestGenesis.main" target="11" />
+      <module name="TestGenesis.test" target="11" />
     </bytecodeTargetLevel>
   </component>
 </project>

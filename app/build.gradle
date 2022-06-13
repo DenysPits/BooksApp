@@ -11,7 +11,7 @@ android {
     compileSdk 30
 
     defaultConfig {
-        applicationId "com.books.app"
+        applicationId "gm.books.app"
         minSdk 21
         targetSdk 30
         versionCode 1
